@@ -1,0 +1,51 @@
+--- a/vllm/models/deepseek_v4/nvidia/sm120.py	2026-05-29 16:31:17.774908949 -0400
++++ b/vllm/models/deepseek_v4/nvidia/sm120.py	2026-05-29 16:32:07.764322296 -0400
+@@ -199,8 +199,21 @@
+                 f"Unsupported compress_ratio={layer.compress_ratio}; "
+                 "expected 1, 4, or 128."
+             )
++        # Reserve the scratch's leading (token) dim for the largest decode
++        # batch that CUDA-graph capture will issue (max_num_seqs *
++        # uniform_decode_query_len), NOT the _DECODE_MAX_TOKENS=64 wrapper
++        # decode-dispatch bound. Capturing a uniform-decode graph larger than
++        # the reservation would otherwise force the shared workspace to grow
++        # (-> torch.accelerator.empty_cache()) mid-capture, which is illegal
++        # during graph capture and raises a CUDA illegal-memory-access. Only
++        # the leading token dim is enlarged; num_heads / num_splits / d_v stay
++        # exact, so per-call decode views are byte-identical (the kernel guards
++        # t_idx >= num_tokens and the trailing strides are unchanged).
++        max_decode_tokens = getattr(
++            layer, "max_decode_tokens", layer.max_num_batched_tokens
++        )
+         _get_decode_scratch(
+-            _max_decode_workspace_tokens(layer.max_num_batched_tokens),
++            min(int(max_decode_tokens), int(layer.max_num_batched_tokens)),
+             layer.padded_heads,
+             512,
+             layer.window_size,
+--- a/vllm/models/deepseek_v4/attention.py	2026-05-29 16:31:18.140919298 -0400
++++ b/vllm/models/deepseek_v4/attention.py	2026-05-29 16:31:56.783011822 -0400
+@@ -878,6 +878,23 @@
+             vllm_config.scheduler_config.max_num_batched_tokens
+         )
+         self.max_model_len = vllm_config.model_config.max_model_len
++        # Largest decode batch (in tokens) that can reach the split-K decode
++        # scratch. CUDA-graph capture issues uniform-decode dummy batches of up
++        # to ``max_num_seqs * uniform_decode_query_len`` tokens (the decode
++        # capture-size cap in CudagraphDispatcher.initialize_cudagraph_keys);
++        # the sparse-MLA decode scratch's leading (token) dim must be reserved
++        # for that during profiling so the shared workspace never reallocs --
++        # and calls ``torch.accelerator.empty_cache()`` -- mid graph-capture
++        # (illegal during capture -> IMA). Bounded above by the prefill batch.
++        _num_spec_tokens = (
++            vllm_config.speculative_config.num_speculative_tokens
++            if vllm_config.speculative_config is not None
++            else 0
++        )
++        self.max_decode_tokens = min(
++            self.max_num_batched_tokens,
++            vllm_config.scheduler_config.max_num_seqs * (1 + _num_spec_tokens),
++        )
+ 
+         if _flashinfer_sparse_mla_AVAILABLE:
+             from flashinfer import BatchSparseMLAPagedAttentionWrapper
