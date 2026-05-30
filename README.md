@@ -3,7 +3,7 @@
 Two results on 2× RTX PRO 6000 Blackwell (SM120, PCIe, **no NVLink**), official `deepseek-ai/DeepSeek-V4-Flash` (fp8), vLLM `dev/unholy-fusion` stack (b12x + lucifer1004 flashinfer sparse-MLA PR#3395 + DeepGEMM@sm120):
 
 1. **Full `--max-model-len 1048576` (1M) on TP=2**, with **cudagraph + flashinfer autotune ON** (no `--enforce-eager`). KV pool **1.32× at 1M**, **~108 tok/s** single-user decode at any context.
-2. **30 / 30 on the `estonia` long-context reasoning test** (`llm-inference-bench`), at greedy, benchmark unmodified.
+2. **29–30/30 on the `estonia` long-context reasoning test** (`llm-inference-bench`), at greedy, benchmark unmodified — **30/30 on a clean run**; it wobbles by ~1 at concurrency 30 (batching nondeterminism, *not* a config issue — see *Results* below).
 
 Pull it: `docker pull verdictai/deepseek-v4-flash-sm120-1m` · launch script + clickable estonia TUI + the patch: **github.com/brandonmmusic-max/deepseek-v4-flash-sm120-1m-cudagraph-fix**
 
@@ -15,13 +15,22 @@ This cost me a full day. On the official fp8 model I was getting **0–9/30** on
 
 The actual culprit: **`VLLM_USE_B12X_SPARSE_INDEXER=1`**. That kernel is the thing that picks **which 512 tokens** the model attends to (`index_topk=512`). Its fast top-k was selecting the **wrong** tokens — so on the estonia needle (a multi-hop chain `bench → cassette MX-88 → vendor V-441 → Mirel **Instrument** → Estonia`, with a near-identical-name distractor `V-447 → Mirel **Industrial** → Latvia`) the model **literally never saw the Estonia link** and deterministically answered "Latvia," often looping to the token cap.
 
-**Unset that env → native "Lightning Indexer" → 30/30**, and reasoning *collapses* from p50 6,839 → **1,749** tokens (it commits fast and correct once it can see the right context). Same model, same prompt, one env flag.
+**Unset that env → native "Lightning Indexer" → 29–30/30** (30/30 on a clean run, up from **0–9/30**), and reasoning *collapses* from p50 6,839 → **~1,750–2,060** tokens with **0 runs hitting the token cap** (it commits fast and correct once it can see the right context). Same model, same prompt, one env flag.
 
 This matters way beyond estonia: the b12x sparse indexer **silently corrupts any long-context retrieval**. If you serve V4-Flash for RAG / long documents / agents, **drop it.** Its real win is high-concurrency throughput, not single-user — at single-user the native indexer costs ~nothing (see speed below).
 
 The other two non-obvious knobs:
 - **Reasoning must be ON.** vLLM's `deepseek_v4` chat encoder defaults `thinking=false`. Either `--default-chat-template-kwargs '{"thinking":true,"reasoning_effort":"high"}'` (+ `--reasoning-parser deepseek_v4`), or the equivalent I used: a server-side default + `--reasoning-parser glm45` (= `DeepSeekV3ReasoningWithThinkingParser`, which forces thinking so it actually splits `<think>`). Note `--reasoning-parser deepseek_v4` **without** the default-kwargs falls back to the *identity* parser and never splits — a real footgun.
 - **`--disable-custom-all-reduce`.** vLLM's CUSTOM all-reduce errors on PCIe-no-NVLink (`invalid argument`); this forces pure NCCL. (b12x PCIe all-reduce also works — it was **not** the bug.)
+
+---
+
+## Results & run-to-run variance
+
+- **30/30 on a clean run; 29–30/30 across runs** (greedy, concurrency 30, 30 measured requests).
+- **0 runs hit the token cap** — no thinking-loops. Reasoning is short and decisive: **p50 ~1,750–2,060 tokens** (vs 6,800+ *before* the fix, when it ruminated its way into the distractor).
+- The ~1-run wobble is **batching nondeterminism**, not a regression: at greedy + concurrency 30, fp8 + MoE + sparse-attention reduction order shifts with how the 30 requests happen to batch together, so once in a while a single request commits to the "Latvia" distractor early (a short ~880-token trace). Want a rock-solid 30/30 for a demo? Drop the concurrency (e.g. `--profile-concurrency 8`) — fewer requests in flight = more deterministic.
+- For contrast, the **same config scored 0–9/30** before dropping the b12x indexer.
 
 ---
 
@@ -81,7 +90,7 @@ Run estonia at **greedy**: `llm_decode_bench.py --port 9201 --test-profile eston
 ## Can anyone reproduce?
 
 If you've got 2× (or more) RTX PRO 6000 Blackwell / other SM120:
-1. Does `docker pull verdictai/deepseek-v4-flash-sm120-1m` + the config above give you **30/30 estonia** at greedy?
+1. Does `docker pull verdictai/deepseek-v4-flash-sm120-1m` + the config above give you **~29–30/30 estonia** at greedy? (And do you see the same ~1-run wobble at concurrency 30, or does your stack hold a flat 30?)
 2. Does adding `VLLM_USE_B12X_SPARSE_INDEXER=1` tank your estonia score (confirming the indexer is the culprit)?
 3. Does `--max-model-len 1048576` boot on **TP=2** for you with cudagraph (no enforce-eager)?
 
