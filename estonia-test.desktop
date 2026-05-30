@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Estonia Test — V4-Flash 30/30
+GenericName=Long-context reasoning test
+Comment=Run the estonia 134K-token reasoning test (live TUI) against the local DeepSeek-V4-Flash server
+Exec=/home/brandonmusic/.local/share/estonia-tui/run_estonia_tui.sh
+Icon=utilities-system-monitor
+Terminal=true
+Categories=Development;Utility;
+Keywords=estonia;deepseek;v4;benchmark;reasoning;
