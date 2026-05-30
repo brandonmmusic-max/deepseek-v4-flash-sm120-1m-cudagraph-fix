@@ -59,7 +59,7 @@ Decode is **flat ~104–109 tok/s from short context to 120K** — the native Li
 
 **Want more speed?** None of these touch greedy correctness (the indexer was the only correctness bug):
 - **b12x PCIe one-shot all-reduce** — faster TP comm than NCCL on PCIe. Swap `--disable-custom-all-reduce` + the NCCL envs for `VLLM_ENABLE_PCIE_ALLREDUCE=1 VLLM_PCIE_ALLREDUCE_BACKEND=b12x`.
-- **MTP greedy spec-decode** (~1.6× decode, lossless at temp 0): `--speculative-config '{"method":"mtp","num_speculative_tokens":2,"attention_backend":"flashinfer","draft_sample_method":"greedy"}'` (use `--max-model-len ≤ 262144` for the memory).
+- **MTP greedy spec-decode — *don't bother for single-user, it's a net slowdown here.*** With the native indexer (the one you need for 30/30 estonia), MTP k=2 measured **82 tok/s vs 111 no-MTP at an identical config**, despite a healthy **2.48 accept-len**. The verify pass runs the Lightning Indexer over (1+k) tokens (k=2 flattens to 3 single-token launches), and the indexer is the decode bottleneck — so each MTP step costs ~3.3× a plain decode, more than the 2.48× acceptance buys back. (Any "~1.6× MTP" figure on this stack was measured with the **b12x sparse indexer** — i.e. the broken-retrieval path.) MTP only wins here with a *trained* multi-token drafter (accept-len > ~3.3) or a faster-but-correct indexer.
 - The real high-concurrency win would be **fixing the b12x indexer's top-k** so you get its speed *and* correct retrieval — that's the open upstream problem.
 
 ---
