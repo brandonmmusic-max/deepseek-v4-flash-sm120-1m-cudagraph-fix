@@ -1,0 +1,734 @@
+========= COMPUTE-SANITIZER
+deep_gemm_file /work/deep_gemm/__init__.py
+device NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition (12, 0)
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (96,0,0) in block (92,0,0)
+=========     Access to 0x2d12c400 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (97,0,0) in block (92,0,0)
+=========     Access to 0x417b8490 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (98,0,0) in block (92,0,0)
+=========     Access to 0x559e0520 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (99,0,0) in block (92,0,0)
+=========     Access to 0xe7fc45b0 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (100,0,0) in block (92,0,0)
+=========     Access to 0x8a890640 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (101,0,0) in block (92,0,0)
+=========     Access to 0xdc99c6d0 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (102,0,0) in block (92,0,0)
+=========     Access to 0x52f0c760 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (103,0,0) in block (92,0,0)
+=========     Access to 0x88d8c7f0 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (104,0,0) in block (92,0,0)
+=========     Access to 0xdfac410 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (105,0,0) in block (92,0,0)
+=========     Access to 0xcfe48480 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (106,0,0) in block (92,0,0)
+=========     Access to 0xc321c530 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (107,0,0) in block (92,0,0)
+=========     Access to 0x157085a0 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (108,0,0) in block (92,0,0)
+=========     Access to 0x74e2c650 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (109,0,0) in block (92,0,0)
+=========     Access to 0x1054c6c0 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (110,0,0) in block (92,0,0)
+=========     Access to 0xda54c770 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (111,0,0) in block (92,0,0)
+=========     Access to 0x43907e0 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (224,0,0) in block (92,0,0)
+=========     Access to 0xfc564400 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (225,0,0) in block (92,0,0)
+=========     Access to 0x3b0c4490 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (226,0,0) in block (92,0,0)
+=========     Access to 0xd0184520 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (227,0,0) in block (92,0,0)
+=========     Access to 0xd8eac5b0 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (228,0,0) in block (92,0,0)
+=========     Access to 0xef084640 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (229,0,0) in block (92,0,0)
+=========     Access to 0xf6b86d0 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (230,0,0) in block (92,0,0)
+=========     Access to 0x9365c760 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (231,0,0) in block (92,0,0)
+=========     Access to 0xfc0887f0 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (232,0,0) in block (92,0,0)
+=========     Access to 0x90a50410 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (233,0,0) in block (92,0,0)
+=========     Access to 0xd34b4480 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (234,0,0) in block (92,0,0)
+=========     Access to 0x4e504530 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (235,0,0) in block (92,0,0)
+=========     Access to 0xb19c45a0 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (236,0,0) in block (92,0,0)
+=========     Access to 0x701c650 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (237,0,0) in block (92,0,0)
+=========     Access to 0x189d06c0 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (238,0,0) in block (92,0,0)
+=========     Access to 0x22fb0770 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Invalid __shared__ read of size 16 bytes
+=========     at void deep_gemm::sm120_fp8_paged_mqa_logits<(unsigned int)3, (unsigned int)64, (unsigned int)128, (unsigned int)64, (bool)1, (bool)0, (unsigned int)2, (unsigned int)3, (unsigned int)128, (unsigned int)128, (unsigned int)256, float>(unsigned int, unsigned int, unsigned int, const unsigned int *, T12 *, const unsigned int *, const unsigned int *, const unsigned int *, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st, CUtensorMap_st)+0x1d50
+=========     by thread (239,0,0) in block (92,0,0)
+=========     Access to 0x44c4c7e0 is out of bounds
+=========     Saved host backtrace up to driver entry point at kernel launch time
+=========         Host Frame: deep_gemm::attention::fp8_fp4_paged_mqa_logits(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&) in attention.hpp:412 [0x7ec8b] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::initialize<at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor, std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&, pybind11::name, pybind11::scope, pybind11::sibling, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg, pybind11::arg_v, pybind11::arg_v, pybind11::arg_v>(at::Tensor (*&)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), at::Tensor (*)(std::tuple<at::Tensor, std::optional<at::Tensor> > const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, at::Tensor const&, int const&, bool const&, c10::ScalarType const&, std::optional<at::Tensor> const&), pybind11::name const&, pybind11::scope const&, pybind11::sibling const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg const&, pybind11::arg_v const&, pybind11::arg_v const&, pybind11::arg_v const&)::{lambda(pybind11::detail::function_call&)#3}::_FUN(pybind11::detail::function_call&) in pybind11.h:401 [0x108c6d] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: pybind11::cpp_function::dispatcher(_object*, _object*, _object*) in pybind11.h:1064 [0xc075e] in _C.cpython-312-x86_64-linux-gnu.so
+=========         Host Frame: cfunction_call [0x14272fe] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1416ee7] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Program hit cudaErrorLaunchFailure (error 719) due to "unspecified launch failure" on CUDA API call to cudaDeviceSynchronize.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: c10::cuda::device_synchronize() [0x46566] in libc10_cuda.so
+=========         Host Frame: THCPModule_cudaSynchronize(_object*, _object*) [0xe50dd4] in libtorch_python.so
+=========         Host Frame: cfunction_vectorcall_NOARGS.llvm.10677758129617558677 [0x1412242] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1417072] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+========= Program hit cudaErrorLaunchFailure (error 719) due to "unspecified launch failure" on CUDA API call to cudaGetLastError.
+=========     Saved host backtrace up to driver entry point at error
+=========         Host Frame: c10::cuda::c10_cuda_check_implementation(int, char const*, char const*, unsigned int, bool) [0x45f2c] in libc10_cuda.so
+=========         Host Frame: c10::cuda::device_synchronize() [0x46586] in libc10_cuda.so
+=========         Host Frame: THCPModule_cudaSynchronize(_object*, _object*) [0xe50dd4] in libtorch_python.so
+=========         Host Frame: cfunction_vectorcall_NOARGS.llvm.10677758129617558677 [0x1412242] in python
+=========         Host Frame: _PyEval_EvalFrameDefault [0x1417072] in python
+=========         Host Frame: PyEval_EvalCode [0x1498e9f] in python
+=========         Host Frame: run_mod.llvm.15281556494959932569 [0x14ad108] in python
+=========         Host Frame: pyrun_file [0x16308c4] in python
+=========         Host Frame: _PyRun_SimpleFileObject [0x1630685] in python
+=========         Host Frame: _PyRun_AnyFileObject [0x1630409] in python
+=========         Host Frame: pymain_run_file_obj [0x163038f] in python
+=========         Host Frame: pymain_run_file [0x163029c] in python
+=========         Host Frame: Py_RunMain.warm [0x16e3ca2] in python
+=========         Host Frame: pymain_main.llvm.11489439184168853189 [0x158d197] in python
+=========         Host Frame: main [0x158cfab] in python
+========= 
+EXCEPTION AcceleratorError: CUDA error: unspecified launch failure
+Search for `cudaErrorLaunchFailure' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+Traceback (most recent call last):
+  File "/codex/dg_nextn3_repro.py", line 163, in <module>
+    main()
+  File "/codex/dg_nextn3_repro.py", line 158, in main
+    run_case(args.next_n, args.fp4, args.validate)
+  File "/codex/dg_nextn3_repro.py", line 131, in run_case
+    torch.cuda.synchronize()
+  File "/vllm/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py", line 1162, in synchronize
+    return torch._C._cuda_synchronize()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.AcceleratorError: CUDA error: unspecified launch failure
+Search for `cudaErrorLaunchFailure' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+========= Target application returned an error
+========= ERROR SUMMARY: 34 errors

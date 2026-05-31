@@ -1,0 +1,24 @@
+deep_gemm_file /work/deep_gemm/__init__.py
+device NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition (12, 0)
+EXCEPTION AcceleratorError: CUDA error: an illegal memory access was encountered
+Search for `cudaErrorIllegalAddress' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+Traceback (most recent call last):
+  File "/codex/dg_nextn3_repro.py", line 163, in <module>
+    main()
+  File "/codex/dg_nextn3_repro.py", line 158, in main
+    run_case(args.next_n, args.fp4, args.validate)
+  File "/codex/dg_nextn3_repro.py", line 131, in run_case
+    torch.cuda.synchronize()
+  File "/vllm/.venv/lib/python3.12/site-packages/torch/cuda/__init__.py", line 1162, in synchronize
+    return torch._C._cuda_synchronize()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.AcceleratorError: CUDA error: an illegal memory access was encountered
+Search for `cudaErrorIllegalAddress' in https://docs.nvidia.com/cuda/cuda-runtime-api/group__CUDART__TYPES.html for more information.
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+

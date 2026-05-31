@@ -1,0 +1,410 @@
+diff --git a/csrc/apis/attention.hpp b/csrc/apis/attention.hpp
+index a457070..322f005 100644
+--- a/csrc/apis/attention.hpp
++++ b/csrc/apis/attention.hpp
+@@ -215,7 +215,7 @@ static torch::Tensor get_paged_mqa_logits_metadata(const torch::Tensor& context_
+     // Dispatch implementation
+     const auto arch_major = device_runtime->get_arch_major();
+     if (arch_major == 12)
+-        DG_HOST_ASSERT(next_n <= 2 and "SM120 paged MQA currently supports next_n <= 2");
++        DG_HOST_ASSERT(next_n <= 3 and "SM120 paged MQA currently supports next_n <= 3");
+     if (is_varlen) {
+         const auto& indices_tensor = indices.value();
+         DG_HOST_ASSERT((arch_major == 10 or arch_major == 12) and next_n == 1 and (block_kv == 64 or block_kv == 32));
+@@ -372,7 +372,7 @@ static torch::Tensor fp8_fp4_paged_mqa_logits(const std::tuple<torch::Tensor, st
+         DG_HOST_ASSERT(indices_tensor.scalar_type() == torch::kInt);
+     }
+     if (arch_major == 12)
+-        DG_HOST_ASSERT(next_n <= 2 and "SM120 paged MQA currently supports next_n <= 2");
++        DG_HOST_ASSERT(next_n <= 3 and "SM120 paged MQA currently supports next_n <= 3");
+ 
+     // Check schedule metadata. SM90 next_n=4 uses a 2-CTA cluster per task, so
+     // schedule_meta carries one entry per cluster instead of per SM.
+diff --git a/csrc/jit_kernels/impls/smxx_fp8_fp4_paged_mqa_logits.hpp b/csrc/jit_kernels/impls/smxx_fp8_fp4_paged_mqa_logits.hpp
+index ebb0357..cf88ea5 100644
+--- a/csrc/jit_kernels/impls/smxx_fp8_fp4_paged_mqa_logits.hpp
++++ b/csrc/jit_kernels/impls/smxx_fp8_fp4_paged_mqa_logits.hpp
+@@ -120,6 +120,8 @@ public:
+         CUtensorMap tensor_map_kv;
+         CUtensorMap tensor_map_kv_scales;
+         CUtensorMap tensor_map_weights;
++        CUtensorMap tensor_map_q_odd;
++        CUtensorMap tensor_map_weights_odd;
+         at::ScalarType logits_dtype;
+ 
+         int num_specialized_threads;
+@@ -195,14 +197,26 @@ static void __instantiate_kernel() {{
+     }
+ 
+     static void launch_impl(const KernelHandle& kernel, const LaunchConfigHandle& config, Args args) {
+-        DG_CUDA_UNIFIED_CHECK(launch_kernel(kernel, config,
+-            args.batch_size,
+-            args.logits_stride, args.block_table_stride,
+-            args.context_lens, args.logits,
+-            args.block_table, args.indices, args.schedule_meta,
+-            args.tensor_map_q, args.tensor_map_kv,
+-            args.tensor_map_kv_scales, args.tensor_map_weights
+-        ));
++        if (device_runtime->get_arch_major() == 12) {
++            DG_CUDA_UNIFIED_CHECK(launch_kernel(kernel, config,
++                args.batch_size,
++                args.logits_stride, args.block_table_stride,
++                args.context_lens, args.logits,
++                args.block_table, args.indices, args.schedule_meta,
++                args.tensor_map_q, args.tensor_map_kv,
++                args.tensor_map_kv_scales, args.tensor_map_weights,
++                args.tensor_map_q_odd, args.tensor_map_weights_odd
++            ));
++        } else {
++            DG_CUDA_UNIFIED_CHECK(launch_kernel(kernel, config,
++                args.batch_size,
++                args.logits_stride, args.block_table_stride,
++                args.context_lens, args.logits,
++                args.block_table, args.indices, args.schedule_meta,
++                args.tensor_map_q, args.tensor_map_kv,
++                args.tensor_map_kv_scales, args.tensor_map_weights
++            ));
++        }
+     }
+ };
+ 
+@@ -256,6 +270,12 @@ static void smxx_fp8_paged_mqa_logits(const torch::Tensor& q,
+                                                head_dim, next_n_per_cta * num_heads,
+                                                static_cast<int>(q.stride(2)),
+                                                head_dim);
++    const bool pad_odd_n = (not is_varlen) and (next_n % 2 == 1) and (next_n >= 3);
++    const auto tensor_map_q_odd = pad_odd_n ?
++        make_tma_2d_desc(q, head_dim, batch_size * next_n * num_heads,
++                         head_dim, num_heads,
++                         static_cast<int>(q.stride(2)), head_dim) :
++        tensor_map_q;
+     const auto tensor_map_kv = make_tma_3d_desc(kv_cache, head_dim, block_kv, num_kv_blocks,
+                                                 head_dim, block_kv, 1,
+                                                 static_cast<int>(kv_cache.stride(1)),
+@@ -268,6 +288,11 @@ static void smxx_fp8_paged_mqa_logits(const torch::Tensor& q,
+     const auto tensor_map_weights = make_tma_2d_desc(weights, num_heads, batch_size * next_n,
+                                                      num_heads, next_n_per_cta,
+                                                      static_cast<int>(weights.stride(0)), 0);
++    const auto tensor_map_weights_odd = pad_odd_n ?
++        make_tma_2d_desc(weights, num_heads, batch_size * next_n,
++                         num_heads, 1,
++                         static_cast<int>(weights.stride(0)), 0) :
++        tensor_map_weights;
+ 
+     // Calculate shared memory size
+     int smem_size = 0;
+@@ -342,6 +367,8 @@ static void smxx_fp8_paged_mqa_logits(const torch::Tensor& q,
+         .tensor_map_kv = tensor_map_kv,
+         .tensor_map_kv_scales = tensor_map_kv_scales,
+         .tensor_map_weights = tensor_map_weights,
++        .tensor_map_q_odd = tensor_map_q_odd,
++        .tensor_map_weights_odd = tensor_map_weights_odd,
+         .logits_dtype = logits_dtype,
+         .num_specialized_threads = num_specialized_threads,
+         .num_math_threads = num_math_threads,
+@@ -561,6 +588,9 @@ public:
+         CUtensorMap tensor_map_kv;
+         CUtensorMap tensor_map_sf_kv;
+         CUtensorMap tensor_map_weights;
++        CUtensorMap tensor_map_q_odd;
++        CUtensorMap tensor_map_sf_q_odd;
++        CUtensorMap tensor_map_weights_odd;
+         at::ScalarType logits_dtype;
+ 
+         int num_tma_threads;
+@@ -603,7 +633,9 @@ static void __instantiate_kernel() {{
+             args.block_table, args.indices, args.schedule_meta,
+             args.tensor_map_q, args.tensor_map_sf_q,
+             args.tensor_map_kv, args.tensor_map_sf_kv,
+-            args.tensor_map_weights
++            args.tensor_map_weights,
++            args.tensor_map_q_odd, args.tensor_map_sf_q_odd,
++            args.tensor_map_weights_odd
+         ));
+     }
+ };
+@@ -641,12 +673,29 @@ static void sm120_fp4_paged_mqa_logits(const torch::Tensor& q,
+                                                head_dim, next_n_atom * num_heads,
+                                                static_cast<int>(q.stride(2)),
+                                                head_dim / 2, 0, false, false);
++    const bool pad_odd_n = (not is_varlen) and (next_n % 2 == 1) and (next_n >= 3);
++    const auto tensor_map_q_odd = pad_odd_n ?
++        make_tma_2d_desc(q, head_dim, batch_size * next_n * num_heads,
++                         head_dim, num_heads,
++                         static_cast<int>(q.stride(2)),
++                         head_dim / 2, 0, false, false) :
++        tensor_map_q;
+     const auto tensor_map_sf_q = make_tma_2d_desc(sf_q, num_heads, batch_size * next_n,
+                                                   num_heads, next_n_atom,
+                                                   static_cast<int>(sf_q.stride(1)), 0);
++    const auto tensor_map_sf_q_odd = pad_odd_n ?
++        make_tma_2d_desc(sf_q, num_heads, batch_size * next_n,
++                         num_heads, 1,
++                         static_cast<int>(sf_q.stride(1)), 0) :
++        tensor_map_sf_q;
+     const auto tensor_map_weights = make_tma_2d_desc(weights, num_heads, batch_size * next_n,
+                                                      num_heads, next_n_atom,
+                                                      static_cast<int>(weights.stride(0)), 0);
++    const auto tensor_map_weights_odd = pad_odd_n ?
++        make_tma_2d_desc(weights, num_heads, batch_size * next_n,
++                         num_heads, 1,
++                         static_cast<int>(weights.stride(0)), 0) :
++        tensor_map_weights;
+     const auto tensor_map_kv = make_tma_3d_desc(kv_cache, head_dim, block_kv, num_kv_blocks,
+                                                 head_dim, block_kv, 1,
+                                                 static_cast<int>(kv_cache.stride(1)),
+@@ -696,6 +745,9 @@ static void sm120_fp4_paged_mqa_logits(const torch::Tensor& q,
+         .tensor_map_kv = tensor_map_kv,
+         .tensor_map_sf_kv = tensor_map_sf_kv,
+         .tensor_map_weights = tensor_map_weights,
++        .tensor_map_q_odd = tensor_map_q_odd,
++        .tensor_map_sf_q_odd = tensor_map_sf_q_odd,
++        .tensor_map_weights_odd = tensor_map_weights_odd,
+         .logits_dtype = logits_dtype,
+         .num_tma_threads = num_tma_threads,
+         .num_math_threads = num_math_threads,
+diff --git a/deep_gemm/include/deep_gemm/impls/sm120_fp4_paged_mqa_logits.cuh b/deep_gemm/include/deep_gemm/impls/sm120_fp4_paged_mqa_logits.cuh
+index 8d5bcab..de45b0a 100644
+--- a/deep_gemm/include/deep_gemm/impls/sm120_fp4_paged_mqa_logits.cuh
++++ b/deep_gemm/include/deep_gemm/impls/sm120_fp4_paged_mqa_logits.cuh
+@@ -39,7 +39,10 @@ void sm120_fp4_paged_mqa_logits(const uint32_t batch_size,
+                                 const __grid_constant__ cute::TmaDescriptor tensor_map_sf_q,
+                                 const __grid_constant__ cute::TmaDescriptor tensor_map_kv,
+                                 const __grid_constant__ cute::TmaDescriptor tensor_map_sf_kv,
+-                                const __grid_constant__ cute::TmaDescriptor tensor_map_weights) {
++                                const __grid_constant__ cute::TmaDescriptor tensor_map_weights,
++                                const __grid_constant__ cute::TmaDescriptor tensor_map_q_odd,
++                                const __grid_constant__ cute::TmaDescriptor tensor_map_sf_q_odd,
++                                const __grid_constant__ cute::TmaDescriptor tensor_map_weights_odd) {
+ #if (defined(__CUDA_ARCH__) and (__CUDA_ARCH__ >= 1200)) or defined(__CLION_IDE__)
+     using namespace mma::sm120;
+     using Barrier = cutlass::arch::ClusterTransactionBarrier;
+@@ -90,6 +93,9 @@ void sm120_fp4_paged_mqa_logits(const uint32_t batch_size,
+         cute::prefetch_tma_descriptor(&tensor_map_kv);
+         cute::prefetch_tma_descriptor(&tensor_map_sf_kv);
+         cute::prefetch_tma_descriptor(&tensor_map_weights);
++        cute::prefetch_tma_descriptor(&tensor_map_q_odd);
++        cute::prefetch_tma_descriptor(&tensor_map_sf_q_odd);
++        cute::prefetch_tma_descriptor(&tensor_map_weights_odd);
+     }
+     __syncwarp();
+ 
+@@ -154,7 +160,7 @@ void sm120_fp4_paged_mqa_logits(const uint32_t batch_size,
+ 
+     // Scheduler
+     static constexpr bool kPadOddN = (not kIsVarlen) and (kNextN % 2 == 1) and (kNextN >= 3);
+-    static constexpr uint32_t kNumNextNAtoms = kPadOddN ? (kNextN + kNextNAtom - 1) / kNextNAtom + 1 : (kNextN + kNextNAtom - 1) / kNextNAtom;
++    static constexpr uint32_t kNumNextNAtoms = (kNextN + kNextNAtom - 1) / kNextNAtom;
+     auto scheduler = sched::PagedMQALogitsScheduler<kNextN, kIsContextLens2D, kIsVarlen, BLOCK_KV, kNumGroups, kNumNextNAtoms>(
+         blockIdx.x, batch_size, context_lens, schedule_meta, indices);
+     DG_STATIC_ASSERT(SPLIT_KV % BLOCK_KV == 0, "Unaligned SPLIT_KV");
+@@ -177,21 +183,57 @@ void sm120_fp4_paged_mqa_logits(const uint32_t batch_size,
+         const auto issue_tma_q = [&](const uint32_t& stage_idx, const uint32_t& q_idx) {
+             if (kv_group_idx == 0 and cute::elect_one_sync()) {
+                 const auto q_token_idx = Scheduler::atom_to_token_idx(q_idx);
+-                tma::copy<kHeadDim, kNextNAtom * kNumHeads, 0>(
+-                    &tensor_map_q, full_q_barriers[stage_idx], smem_q[stage_idx],
+-                    0, q_token_idx * kNumHeads);
+-                tma::copy<kNextNAtom * kNumHeads, 1, 0>(
+-                    &tensor_map_sf_q, full_q_barriers[stage_idx], smem_sf_q[stage_idx],
+-                    0, q_token_idx);
+-                tma::copy<kNextNAtom * kNumHeads, 1, 0>(
+-                    &tensor_map_weights, full_q_barriers[stage_idx], smem_weights[stage_idx],
+-                    0, q_token_idx);
+-                full_q_barriers[stage_idx]->arrive_and_expect_tx(
+-                    SMEM_Q_SIZE_PER_STAGE + SMEM_SF_Q_SIZE_PER_STAGE + SMEM_WEIGHT_SIZE_PER_STAGE);
++                if constexpr (kPadOddN) {
++                    if (q_idx % kNumNextNAtoms == kNumNextNAtoms - 1) {
++                        for (uint32_t i = SMEM_Q_SIZE_PER_STAGE / kNextNAtom; i < SMEM_Q_SIZE_PER_STAGE; ++i)
++                            smem_q[stage_idx][i] = 0;
++                        for (uint32_t i = kNumHeads; i < kNextNAtom * kNumHeads; ++i) {
++                            smem_sf_q[stage_idx][i] = 0;
++                            smem_weights[stage_idx][i] = 0.0f;
++                        }
++                        tma::copy<kHeadDim, kNumHeads, 0>(
++                            &tensor_map_q_odd, full_q_barriers[stage_idx], smem_q[stage_idx],
++                            0, q_token_idx * kNumHeads);
++                        tma::copy<kNumHeads, 1, 0>(
++                            &tensor_map_sf_q_odd, full_q_barriers[stage_idx], smem_sf_q[stage_idx],
++                            0, q_token_idx);
++                        tma::copy<kNumHeads, 1, 0>(
++                            &tensor_map_weights_odd, full_q_barriers[stage_idx], smem_weights[stage_idx],
++                            0, q_token_idx);
++                        full_q_barriers[stage_idx]->arrive_and_expect_tx(
++                            SMEM_Q_SIZE_PER_STAGE / kNextNAtom +
++                            SMEM_SF_Q_SIZE_PER_STAGE / kNextNAtom +
++                            SMEM_WEIGHT_SIZE_PER_STAGE / kNextNAtom);
++                    } else {
++                        tma::copy<kHeadDim, kNextNAtom * kNumHeads, 0>(
++                            &tensor_map_q, full_q_barriers[stage_idx], smem_q[stage_idx],
++                            0, q_token_idx * kNumHeads);
++                        tma::copy<kNextNAtom * kNumHeads, 1, 0>(
++                            &tensor_map_sf_q, full_q_barriers[stage_idx], smem_sf_q[stage_idx],
++                            0, q_token_idx);
++                        tma::copy<kNextNAtom * kNumHeads, 1, 0>(
++                            &tensor_map_weights, full_q_barriers[stage_idx], smem_weights[stage_idx],
++                            0, q_token_idx);
++                        full_q_barriers[stage_idx]->arrive_and_expect_tx(
++                            SMEM_Q_SIZE_PER_STAGE + SMEM_SF_Q_SIZE_PER_STAGE + SMEM_WEIGHT_SIZE_PER_STAGE);
++                    }
++                } else {
++                    tma::copy<kHeadDim, kNextNAtom * kNumHeads, 0>(
++                        &tensor_map_q, full_q_barriers[stage_idx], smem_q[stage_idx],
++                        0, q_token_idx * kNumHeads);
++                    tma::copy<kNextNAtom * kNumHeads, 1, 0>(
++                        &tensor_map_sf_q, full_q_barriers[stage_idx], smem_sf_q[stage_idx],
++                        0, q_token_idx);
++                    tma::copy<kNextNAtom * kNumHeads, 1, 0>(
++                        &tensor_map_weights, full_q_barriers[stage_idx], smem_weights[stage_idx],
++                        0, q_token_idx);
++                    full_q_barriers[stage_idx]->arrive_and_expect_tx(
++                        SMEM_Q_SIZE_PER_STAGE + SMEM_SF_Q_SIZE_PER_STAGE + SMEM_WEIGHT_SIZE_PER_STAGE);
++                }
+             }
+         };
+ 
+-        uint32_t q_idx = batch_size, kv_idx, num_kv;
++        uint32_t q_idx = batch_size * kNumNextNAtoms, kv_idx, num_kv;
+         uint32_t next_q_idx, next_kv_idx, next_num_kv;
+         bool fetched_next_task;
+ 
+@@ -252,7 +294,7 @@ void sm120_fp4_paged_mqa_logits(const uint32_t batch_size,
+         const uint32_t a_row = (lane_idx & 7) + ((lane_idx >> 3) & 1) * 8;
+ 
+         using Scheduler = decltype(scheduler);
+-        uint32_t q_idx = batch_size, kv_idx;
++        uint32_t q_idx = batch_size * kNumNextNAtoms, kv_idx;
+         uint32_t next_q_idx, next_kv_idx, next_num_kv;
+         uint32_t q_stage_idx, q_phase;
+         bool is_paired_atom = false;
+@@ -349,6 +391,11 @@ void sm120_fp4_paged_mqa_logits(const uint32_t batch_size,
+                     compute_and_store(cute::Int<kNextNAtom>{});
+                 else
+                     compute_and_store(cute::Int<1>{});
++            } else if constexpr (kPadOddN) {
++                if (q_idx % kNumNextNAtoms == kNumNextNAtoms - 1)
++                    compute_and_store(cute::Int<1>{});
++                else
++                    compute_and_store(cute::Int<kNextNAtom>{});
+             } else {
+                 compute_and_store(cute::Int<kNextNAtom>{});
+             }
+diff --git a/deep_gemm/include/deep_gemm/impls/sm120_fp8_paged_mqa_logits.cuh b/deep_gemm/include/deep_gemm/impls/sm120_fp8_paged_mqa_logits.cuh
+index f9c13a3..526d76b 100644
+--- a/deep_gemm/include/deep_gemm/impls/sm120_fp8_paged_mqa_logits.cuh
++++ b/deep_gemm/include/deep_gemm/impls/sm120_fp8_paged_mqa_logits.cuh
+@@ -38,7 +38,9 @@ void sm120_fp8_paged_mqa_logits(const uint32_t batch_size,
+                                 const __grid_constant__ cute::TmaDescriptor tensor_map_q,
+                                 const __grid_constant__ cute::TmaDescriptor tensor_map_kv,
+                                 const __grid_constant__ cute::TmaDescriptor tensor_map_kv_scales,
+-                                const __grid_constant__ cute::TmaDescriptor tensor_map_weights) {
++                                const __grid_constant__ cute::TmaDescriptor tensor_map_weights,
++                                const __grid_constant__ cute::TmaDescriptor tensor_map_q_odd,
++                                const __grid_constant__ cute::TmaDescriptor tensor_map_weights_odd) {
+ #if (defined(__CUDA_ARCH__) and (__CUDA_ARCH__ >= 1200)) or defined(__CLION_IDE__)
+     using namespace mma::sm120;
+     using Barrier = cutlass::arch::ClusterTransactionBarrier;
+@@ -88,6 +90,8 @@ void sm120_fp8_paged_mqa_logits(const uint32_t batch_size,
+         cute::prefetch_tma_descriptor(&tensor_map_kv);
+         cute::prefetch_tma_descriptor(&tensor_map_kv_scales);
+         cute::prefetch_tma_descriptor(&tensor_map_weights);
++        cute::prefetch_tma_descriptor(&tensor_map_q_odd);
++        cute::prefetch_tma_descriptor(&tensor_map_weights_odd);
+     }
+     __syncwarp();
+ 
+@@ -148,7 +152,7 @@ void sm120_fp8_paged_mqa_logits(const uint32_t batch_size,
+ 
+     // Scheduler
+     static constexpr bool kPadOddN = (not kIsVarlen) and (kNextN % 2 == 1) and (kNextN >= 3);
+-    static constexpr uint32_t kNumNextNAtoms = kPadOddN ? (kNextN + kNextNAtom - 1) / kNextNAtom + 1 : (kNextN + kNextNAtom - 1) / kNextNAtom;
++    static constexpr uint32_t kNumNextNAtoms = (kNextN + kNextNAtom - 1) / kNextNAtom;
+     auto scheduler = sched::PagedMQALogitsScheduler<kNextN, kIsContextLens2D, kIsVarlen, BLOCK_KV, kNumGroups, kNumNextNAtoms>(
+         blockIdx.x, batch_size, context_lens, schedule_meta, indices);
+     DG_STATIC_ASSERT(SPLIT_KV % BLOCK_KV == 0, "Unaligned SPLIT_KV");
+@@ -171,17 +175,43 @@ void sm120_fp8_paged_mqa_logits(const uint32_t batch_size,
+         const auto issue_tma_q = [&](const uint32_t& stage_idx, const uint32_t& q_idx) {
+             if (kv_group_idx == 0 and cute::elect_one_sync()) {
+                 const auto q_token_idx = Scheduler::atom_to_token_idx(q_idx);
+-                tma::copy<kHeadDim, kNextNAtom * kNumHeads, kHeadDim>(
+-                    &tensor_map_q, full_q_barriers[stage_idx], smem_q[stage_idx],
+-                    0, q_token_idx * kNumHeads);
+-                tma::copy<kNextNAtom * kNumHeads, 1, 0>(
+-                    &tensor_map_weights, full_q_barriers[stage_idx], smem_weights[stage_idx],
+-                    0, q_token_idx);
+-                full_q_barriers[stage_idx]->arrive_and_expect_tx(SMEM_Q_SIZE_PER_STAGE + SMEM_WEIGHT_SIZE_PER_STAGE);
++                if constexpr (kPadOddN) {
++                    if (q_idx % kNumNextNAtoms == kNumNextNAtoms - 1) {
++                        auto smem_q_bytes = reinterpret_cast<uint8_t*>(smem_q[stage_idx]);
++                        for (uint32_t i = SMEM_Q_SIZE_PER_STAGE / kNextNAtom; i < SMEM_Q_SIZE_PER_STAGE; ++i)
++                            smem_q_bytes[i] = 0;
++                        for (uint32_t i = kNumHeads; i < kNextNAtom * kNumHeads; ++i)
++                            smem_weights[stage_idx][i] = 0.0f;
++                        tma::copy<kHeadDim, kNumHeads, kHeadDim>(
++                            &tensor_map_q_odd, full_q_barriers[stage_idx], smem_q[stage_idx],
++                            0, q_token_idx * kNumHeads);
++                        tma::copy<kNumHeads, 1, 0>(
++                            &tensor_map_weights_odd, full_q_barriers[stage_idx], smem_weights[stage_idx],
++                            0, q_token_idx);
++                        full_q_barriers[stage_idx]->arrive_and_expect_tx(
++                            SMEM_Q_SIZE_PER_STAGE / kNextNAtom + SMEM_WEIGHT_SIZE_PER_STAGE / kNextNAtom);
++                    } else {
++                        tma::copy<kHeadDim, kNextNAtom * kNumHeads, kHeadDim>(
++                            &tensor_map_q, full_q_barriers[stage_idx], smem_q[stage_idx],
++                            0, q_token_idx * kNumHeads);
++                        tma::copy<kNextNAtom * kNumHeads, 1, 0>(
++                            &tensor_map_weights, full_q_barriers[stage_idx], smem_weights[stage_idx],
++                            0, q_token_idx);
++                        full_q_barriers[stage_idx]->arrive_and_expect_tx(SMEM_Q_SIZE_PER_STAGE + SMEM_WEIGHT_SIZE_PER_STAGE);
++                    }
++                } else {
++                    tma::copy<kHeadDim, kNextNAtom * kNumHeads, kHeadDim>(
++                        &tensor_map_q, full_q_barriers[stage_idx], smem_q[stage_idx],
++                        0, q_token_idx * kNumHeads);
++                    tma::copy<kNextNAtom * kNumHeads, 1, 0>(
++                        &tensor_map_weights, full_q_barriers[stage_idx], smem_weights[stage_idx],
++                        0, q_token_idx);
++                    full_q_barriers[stage_idx]->arrive_and_expect_tx(SMEM_Q_SIZE_PER_STAGE + SMEM_WEIGHT_SIZE_PER_STAGE);
++                }
+             }
+         };
+ 
+-        uint32_t q_idx = batch_size, kv_idx, num_kv;
++        uint32_t q_idx = batch_size * kNumNextNAtoms, kv_idx, num_kv;
+         uint32_t next_q_idx, next_kv_idx, next_num_kv;
+         bool fetched_next_task;
+ 
+@@ -244,7 +274,7 @@ void sm120_fp8_paged_mqa_logits(const uint32_t batch_size,
+         const uint32_t a_row = (lane_idx & 7) + ((lane_idx >> 3) & 1) * 8;
+ 
+         using Scheduler = decltype(scheduler);
+-        uint32_t q_idx = batch_size, kv_idx;
++        uint32_t q_idx = batch_size * kNumNextNAtoms, kv_idx;
+         uint32_t next_q_idx, next_kv_idx, next_num_kv;
+         uint32_t q_stage_idx, q_phase;
+         bool is_paired_atom = false;
+@@ -338,6 +368,11 @@ void sm120_fp8_paged_mqa_logits(const uint32_t batch_size,
+                     compute_and_store(cute::Int<kNextNAtom>{});
+                 else
+                     compute_and_store(cute::Int<1>{});
++            } else if constexpr (kPadOddN) {
++                if (q_idx % kNumNextNAtoms == kNumNextNAtoms - 1)
++                    compute_and_store(cute::Int<1>{});
++                else
++                    compute_and_store(cute::Int<kNextNAtom>{});
+             } else {
+                 compute_and_store(cute::Int<kNextNAtom>{});
+             }
+diff --git a/tests/test_attention.py b/tests/test_attention.py
+index d42ca6a..fd465a1 100644
+--- a/tests/test_attention.py
++++ b/tests/test_attention.py
+@@ -261,7 +261,7 @@ def test_paged_mqa_logits():
+                     for block_kv in ((64, ) if arch_major == 12 and not is_fp4 else (32, 64)):
+                         for use_2d_context_lens, clean_logits in [(True, False)]:
+                             for batch_size in (256, ):
+-                                for next_n in ((1, ) if is_varlen else ((1, 2, 4, 5, 6) if arch_major == 10 else (1, 2) if arch_major == 12 else (1, 2, 4))):
++                                for next_n in ((1, ) if is_varlen else ((1, 2, 4, 5, 6) if arch_major == 10 else (1, 2, 3) if arch_major == 12 else (1, 2, 4))):
+                                     for max_tokens_per_batch in ((1, 4, 10) if is_varlen else (1, )):
+                                         for num_heads, head_dim in [(64, 128)]:
+                                             for avg_kv in (8192, 32768):

@@ -1,0 +1,5 @@
+========= COMPUTE-SANITIZER
+deep_gemm_file /work/deep_gemm/__init__.py
+device NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition (12, 0)
+LAUNCH_OK fp4=False next_n=3 logits_shape=(768, 2048)
+========= ERROR SUMMARY: 0 errors
